@@ -12,28 +12,12 @@ const create = async (artistPayload) => {
 
 const findAll = async () => {
     try {
-        const artists = await Artist.findAll({
-            include: [{
-                model: Track,
-                through: {
-                    attributes: []
-                },
-                include: [{
-                    model: User_Like,
-                    attributes: []
-                }],
-                attributes: {
-                    include: [[
-                        db.Sequelize.fn('COUNT', db.Sequelize.col('Tracks->User_Likes.trackId')),
-                        'likesCount'
-                    ]]
-                },
-                group: ['Track.id'],
-                raw: true,
-                nest: true
-            }],
-            group: ['Artist.id', 'Tracks.id'],
-            nest: true
+        const artists = await Artist.scope('withTracks').findAll({
+            attributes:{
+                include:[
+      [ db.sequelize.literal("(SELECT count(id) from User_Follows where `User_Follows`.`artistId` = `Artist`.`id` group by artistId)"),"followCount"]
+                ]
+            },
         });
         return artists
     } catch (error) {
@@ -43,38 +27,15 @@ const findAll = async () => {
 
 const findByPk = async (id) => {
     try {
-        const artist = await Artist.findOne({
+        const artist = await Artist.scope('withTracks').findOne({
             where:{
                 id:id
             },
-            
-            include:[{
-                model:Track,
-                through:{
-                    attributes:[]
-                },
-                include: [{
-                    model: User_Like,
-                    attributes: []
-                }],
-                attributes: {
-                    include: [[
-                        db.Sequelize.fn('COUNT', db.Sequelize.col('Tracks->User_Likes.trackId')),
-                        'likesCount'
-                    ]]
-                },
-                group: ['Track.id'],
-                nest:true
+            attributes:{
+                include:[
+                [ db.sequelize.literal(`(SELECT count(id) from User_Follows where artistId=${id} group by artistId)`),"followCount"]
+                ]
             },
-            {
-                model:User_Follow,
-                attributes:  [[
-                        db.Sequelize.fn('COUNT', db.Sequelize.col('User_Follows.id')),
-                        'followCount'
-                    ]],
-            }],
-            group: ['Artist.id','User_Follows.id', 'Tracks.id',],
-            nest: true
         });
         return artist
     } catch (error) {

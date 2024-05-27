@@ -15,6 +15,28 @@ module.exports = (sequelize, DataTypes) => {
       models.Artist.belongsToMany(models.Album, { through: models.Album_Artist });
       models.Artist.belongsToMany(models.User, { through: models.User_Follow ,as:"Followers"});
     }
+
+    static initScope(models) {
+      this.addScope('withTracks',{
+        include:[{
+          model:models.Track,
+          through:{
+              attributes:[]
+          },
+          include: [{
+              model: models.User_Like,
+              attributes: []
+          }],
+          attributes: {
+              include: [[
+                  sequelize.fn('COUNT', sequelize.col('Tracks->User_Likes.trackId')),
+                  'likesCount'
+              ]]
+          },
+      },],
+      group: ['Artist.id','Tracks.id',],
+      })
+    }
   }
   Artist.init({
     firstName: {

@@ -26,7 +26,7 @@ const findArtistById = async (req, res) => {
     try {
         if (+req.params.id) {
             const artist = await findByPk(+req.params.id);
-            return generalResponse(res, artist, "Artist Retrived", "success", true)
+            return generalResponse(res, artist, "one Artist Retrived", "success", true)
         } else {
             return generalResponse(res, { success: false }, "Artist Not Exists...", "error", true)
         }
