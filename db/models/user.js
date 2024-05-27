@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.User.hasMany(models.Playlist, { foreignKey: 'userId' });
       models.User.belongsToMany(models.Track, { through: models.User_Like });
+      models.User.belongsToMany(models.Artist, { through: models.User_Follow ,as:"Followers"});
     }
   }
   User.init({

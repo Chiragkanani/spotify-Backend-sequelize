@@ -1,5 +1,5 @@
 const { generalResponse } = require('../helpers/responce.helper')
-const {create,findByPk,findAll,update,destroy} = require("../repositories/artist.repositories")
+const {create,findByPk,findAll,update,destroy,addIntoUserFollow,removeFromUserFollow} = require("../repositories/artist.repositories")
 
 const createArtist  = async (req,res)=>{
     try {
@@ -71,11 +71,34 @@ const deleteArtist = async (req,res)=>{
     }
 }
 
+const addArtistIntoUserFollow = async (req,res)=>{
+    try {
+            const {userId,artistId} = req.body
+            const result = await addIntoUserFollow({userId,artistId});
+            return generalResponse(res, result, "Artist followed", "success", true);
+    } catch (error) {
+        console.log(error);
+        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true)
+    }
+}
+
+const removeArtistFromUserFollow = async (req,res)=>{
+    try {
+            const {userId,artistId} = req.body
+            const result = await removeFromUserFollow({userId,artistId});
+            return generalResponse(res, result, "Artist unfollowed", "success", true);
+    } catch (error) {
+        console.log(error);
+        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true)
+    }
+}
 
 module.exports = {
     createArtist,
     findAllArtists,
     findArtistById,
     updateArtist,
-    deleteArtist
+    deleteArtist,
+    addArtistIntoUserFollow,
+    removeArtistFromUserFollow
 }

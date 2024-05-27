@@ -1,9 +1,9 @@
 const { generalResponse } = require('../helpers/responce.helper')
 const { create,findAll,findOne,destroy,update,addTrackToUserLike,removeTrackToUserLike,usersLikedTracks } = require("../repositories/track.repositories")
-
 const createTrack = async (req,res)=>{
     try {
-        const {title,path,duration,releaseDate,artists} = req.body
+        console.log(req.body)
+        const {title,duration,releaseDate,artists} = req.body
 
         const Track_Artists = artists.reduce((auc,cur)=>{
             auc.push({artistId:cur})
@@ -11,7 +11,7 @@ const createTrack = async (req,res)=>{
         },[]);
         const newtrack = await create({
             title:title.trim(),
-            path:path.trim(),
+            path:req.file.path,
             releaseDate,
             duration,
             Track_Artists

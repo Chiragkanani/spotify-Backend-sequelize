@@ -1,5 +1,5 @@
 const db = require("../db/models/index");
-const { Artist,Track,User_Like } = db
+const { Artist,Track,User_Like,User_Follow,User } = db
 
 const create = async (artistPayload) => {
     try {
@@ -47,6 +47,7 @@ const findByPk = async (id) => {
             where:{
                 id:id
             },
+            
             include:[{
                 model:Track,
                 through:{
@@ -63,13 +64,17 @@ const findByPk = async (id) => {
                     ]]
                 },
                 group: ['Track.id'],
-                raw:true,
                 nest:true
+            },
+            {
+                model:User_Follow,
+                attributes:  [[
+                        db.Sequelize.fn('COUNT', db.Sequelize.col('User_Follows.id')),
+                        'followCount'
+                    ]],
             }],
-            group: ['Artist.id', 'Tracks.id'],
-            raw: true,
+            group: ['Artist.id','User_Follows.id', 'Tracks.id',],
             nest: true
-
         });
         return artist
     } catch (error) {
@@ -103,6 +108,30 @@ const destroy = async (id)=>{
         throw error
     }
 }
+
+const addIntoUserFollow = async(payload)=>{
+    try {
+        const result = await User_Follow.create(payload);
+        return result
+    } catch (error) {
+        throw error
+    }
+}
+
+const removeFromUserFollow = async(payload)=>{
+    try {
+        const result = await User_Follow.destroy({
+            where:{
+                userId:payload.userId,
+                artistId:payload.artistId
+            }
+        });
+        return result
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = {
-    create,findAll,findByPk,update,destroy
+    create,findAll,findByPk,update,destroy,addIntoUserFollow,removeFromUserFollow
 }
