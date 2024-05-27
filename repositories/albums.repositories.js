@@ -1,19 +1,19 @@
 const db = require("../db/models/index");
 const { Op} = require("sequelize");
 
-const { Album,albumHasManyArtist,albumHasManyTrack,Track,Artist,Album_Artist,Album_Track } = db
+const { Album,albumHasManyArtist,albumHasManyTrack,Album_Artist,Album_Track } = db
 
 
 const create = async (albumPayload) => {
     try {
         let newAlbum
         const result = await db.sequelize.transaction(async t => {
-         newAlbum = await Album.create(albumPayload,{
-            include:[albumHasManyArtist,albumHasManyTrack],
-            transaction:t
+            newAlbum = await Album.create(albumPayload,{
+                include:[albumHasManyArtist,albumHasManyTrack],
+                transaction:t
+            });
         });
-    });
-    return newAlbum
+        return newAlbum
     } catch (error) {
         throw error
     }
@@ -123,5 +123,10 @@ const destroy = async (id) => {
     }
 }
 module.exports = {
-    create, findAll, findOne, update, destroy,findOneWithTracks
+    create, 
+    findAll, 
+    findOne, 
+    update, 
+    destroy,
+    findOneWithTracks
 }

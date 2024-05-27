@@ -16,13 +16,13 @@ const createUser = async (req, res) => {
 
 
 const findAllUsers = async(req,res)=>{
-        try {
-            const users = await findAll();
-            return generalResponse(res, users, "Users Retrived", "success", true)
-        } catch (error) {
-            console.log(error);
-            return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true)
-        }
+    try {
+        const users = await findAll();
+        return generalResponse(res, users, "Users Retrived", "success", true)
+    } catch (error) {
+        console.log(error);
+        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true)
+    }
 }
 
 const findUserById = async (req,res)=>{
@@ -55,4 +55,9 @@ const userUpdate = async(req,res)=>{
         console.log(error);
         return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true)    }
 }
-module.exports = { findAllUsers,createUser,findUserById,userUpdate }
+module.exports = { 
+    findAllUsers,
+    createUser,
+    findUserById,
+    userUpdate 
+}

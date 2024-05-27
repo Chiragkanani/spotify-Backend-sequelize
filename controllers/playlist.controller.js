@@ -96,5 +96,11 @@ const userPlaylistWithTrack = async(req,res)=>{
 }
 
 module.exports = {
-createPlaylist,updatePlaylist,deletePlaylist,addPlaylistTrack,removePlaylistTrack,findUsersAllPlaylist,userPlaylistWithTrack
+    createPlaylist,
+    updatePlaylist,
+    deletePlaylist,
+    addPlaylistTrack,
+    removePlaylistTrack,
+    findUsersAllPlaylist,
+    userPlaylistWithTrack
 }

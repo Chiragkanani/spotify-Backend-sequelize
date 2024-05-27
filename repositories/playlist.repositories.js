@@ -1,5 +1,5 @@
 const db = require("../db/models/index");
-const { Playlist,Playlist_Track,User,Track,Artist } = db
+const { Playlist,Playlist_Track,Track,Artist } = db
 
 const create = async(playlistPlayload)=>{
     try {
@@ -100,5 +100,11 @@ const playlistWithTrack = async(id)=>{
     }
 }
 module.exports = {
-create,update,destroy,addTrack,removeTrack,findAllPlaylist,playlistWithTrack
+    create,
+    update,
+    destroy,
+    addTrack,
+    removeTrack,
+    findAllPlaylist,
+    playlistWithTrack
 }

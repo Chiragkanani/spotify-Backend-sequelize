@@ -1,5 +1,5 @@
 const db = require("../db/models/index");
-const { Artist,Track,User_Like,User_Follow,User } = db
+const { Artist,User_Follow } = db
 
 const create = async (artistPayload) => {
     try {
@@ -13,11 +13,9 @@ const create = async (artistPayload) => {
 const findAll = async () => {
     try {
         const artists = await Artist.scope('withTracks').findAll({
-            attributes:{
-                include:[
-      [ db.sequelize.literal("(SELECT count(id) from User_Follows where `User_Follows`.`artistId` = `Artist`.`id` group by artistId)"),"followCount"]
-                ]
-            },
+                attributes:{
+                    include:[[ db.sequelize.literal("(SELECT count(id) from User_Follows where `User_Follows`.`artistId` = `Artist`.`id` group by artistId)"),"followCount"]]
+                },
         });
         return artists
     } catch (error) {
@@ -32,9 +30,7 @@ const findByPk = async (id) => {
                 id:id
             },
             attributes:{
-                include:[
-                [ db.sequelize.literal(`(SELECT count(id) from User_Follows where artistId=${id} group by artistId)`),"followCount"]
-                ]
+                include:[[ db.sequelize.literal(`(SELECT count(id) from User_Follows where artistId=${id} group by artistId)`),"followCount"]]
             },
         });
         return artist
@@ -94,5 +90,11 @@ const removeFromUserFollow = async(payload)=>{
 }
 
 module.exports = {
-    create,findAll,findByPk,update,destroy,addIntoUserFollow,removeFromUserFollow
+    create,
+    findAll,
+    findByPk,
+    update,
+    destroy,
+    addIntoUserFollow,
+    removeFromUserFollow
 }

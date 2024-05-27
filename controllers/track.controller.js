@@ -107,5 +107,12 @@ const usersLikedTracksCollection = async(req,res)=>{
 }
 
 module.exports = {
-    createTrack,findAllTracks,findByPk,deleteTrack,updateTrack,addTrackToUserLiked,removeTrackToUserLiked,usersLikedTracksCollection
+    createTrack,
+    findAllTracks,
+    findByPk,
+    deleteTrack,
+    updateTrack,
+    addTrackToUserLiked,
+    removeTrackToUserLiked,
+    usersLikedTracksCollection
 }

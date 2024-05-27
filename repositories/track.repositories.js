@@ -169,5 +169,12 @@ const usersLikedTracks = async(id)=>{
     }
 }
 module.exports = {
-    create,findAll,findOne,destroy,update,addTrackToUserLike,removeTrackToUserLike,usersLikedTracks
+    create,
+    findAll,
+    findOne,
+    destroy,
+    update,
+    addTrackToUserLike,
+    removeTrackToUserLike,
+    usersLikedTracks
 }

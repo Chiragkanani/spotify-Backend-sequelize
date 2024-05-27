@@ -93,5 +93,10 @@ const updateAlbum = async(req,res)=>{
 }
 
 module.exports = {
-    createAlbum,findAllAlbums,findOneAlbum,deleteAlbum,updateAlbum,findOneAlbumWithTrack
+    createAlbum,
+    findAllAlbums,
+    findOneAlbum,
+    deleteAlbum,
+    updateAlbum,
+    findOneAlbumWithTrack
 }

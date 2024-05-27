@@ -57,4 +57,10 @@ const update = async(id,userPayload)=>{
 
 
 
-module.exports = { create,findAll,findByPk,findUserByEmail,update }
+module.exports = { 
+    create,
+    findAll,
+    findByPk,
+    findUserByEmail,
+    update 
+}
