@@ -18,48 +18,16 @@ const create = async (trackPayload)=>{
 }
 
 const findAll = async()=>{
-    const tracks = await Track.findAll({
-        attributes: {
-            include: [[
-                db.Sequelize.fn('COUNT', db.Sequelize.col('User_Likes.trackId')),
-                'likesCount'
-            ]]
-        },
-        include: [{
-            model: Artist,
-            attributes: ['id', 'firstName', 'lastName'],
-            through: {
-                attributes: []
-            }
-        }, {
-            model: User_Like,
-            attributes: []
-        }],
-        group: ['Track.id', 'Artists.id'],
-        nest: true
-    });
+    const tracks = await Track.scope('withAllInfo').findAll({});
     return tracks
 }
 
 const findOne = async(id)=>{
     try {
-        const track = await Track.scope('withLikeCount').findOne({
+        const track = await Track.scope('withAllInfo').findOne({
             where: {
                 id: id
-            },
-            include: [{
-                model: Artist,
-                attributes: ['id', 'firstName','lastName'],
-                through: {
-                    attributes: []
-                }
-            },{
-                model:User_Like,
-                attributes: []
-            }],
-            group: ['Track.id', 'Artists.id'],
-            raw: true,
-            nest:true
+            }
         });
         return track
     } catch (error) {

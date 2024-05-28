@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
 });  
 
 const fileFilter = (req, file, cb) => {
-    if((file.mimetype).includes('jpeg') || (file.mimetype).includes('png') || (file.mimetype).includes('jpg')){
+    if((file.mimetype).includes('mp3') ){
         cb(null, true);
     } else{
         cb(null, false);
@@ -19,7 +19,7 @@ const fileFilter = (req, file, cb) => {
 
 };
 
-let upload = multer({ storage: storage});
+let upload = multer({ storage: storage, fileFilter: fileFilter });
 
 module.exports =  upload.single('track')
 

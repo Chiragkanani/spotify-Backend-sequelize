@@ -1,16 +1,20 @@
 const { generalResponse } = require('../helpers/responce.helper')
-const { create,findAll,findByPk,update } = require("../repositories/user.repositories")
+const { create,findAll,findByPk,update,findUserByEmail } = require("../repositories/user.repositories")
 
 
 
 const createUser = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body
+        const user = await findUserByEmail(email);
+        if (user) {
+            return generalResponse(res, { success: false }, "Email already exists", "error", true, 200)
+        }
         const newUser = await create({ firstName: firstName?.trim(), lastName: lastName?.trim(), email, password: password?.trim() })
-        return generalResponse(res, newUser, "User Register successfully", "success", true)
+        return generalResponse(res, newUser, "User created successfully", "success", true,201)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true,500)
     }
 }
 

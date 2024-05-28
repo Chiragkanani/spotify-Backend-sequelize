@@ -23,17 +23,16 @@ const createAlbum = async (req,res)=>{
 
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true,500)
     }
 }
 const findAllAlbums = async(req,res)=>{
     try {
         const albums = await findAll();
         return generalResponse(res, albums, "Albums  retrived", "success", true)
-
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true)
+        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true,500)
     }
 }
 
@@ -43,7 +42,7 @@ const findOneAlbum = async(req,res)=>{
         return generalResponse(res, album, "Albums  retrived", "success", true)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true)
+        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true,500)
     }
 }
 
@@ -53,7 +52,7 @@ const findOneAlbumWithTrack = async(req,res)=>{
         return generalResponse(res, album, "Albums  retrived", "success", true)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true)
+        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true,500)
     }
 }
 
@@ -61,16 +60,13 @@ const deleteAlbum = async (req, res) => {
     try {
         if (+req.params.id) {
             const result = await destroy(+req.params.id);
-            if (result) {
-                return generalResponse(res, result, "Album deleted", "success", true)
-            }
-            return generalResponse(res, result, "Album not deleted", "success", true)
+            return generalResponse(res, result, result ? "Album deleted": "Album not deleted", "success", true)
         } else {
-            return generalResponse(res, { success: false }, "Album Not Exists...", "error", true)
+            return generalResponse(res, { success: false }, "Album Not Exists...", "error", true,400)
         }
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true)
+        return generalResponse(res, { success: false }, "Something Went Wrong... try again later..", "error", true,500)
     }
 }
 
@@ -88,7 +84,7 @@ const updateAlbum = async(req,res)=>{
         return generalResponse(res, result, "Album updated", "success", true)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true,500)
     }
 }
 

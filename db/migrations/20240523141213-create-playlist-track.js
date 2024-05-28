@@ -34,6 +34,11 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+    await queryInterface.addConstraint('Playlist_Tracks', {
+      fields: ['playlistId', 'trackId'],
+      type: 'unique',
+      name: 'unique_playlist_track_constraint'  // Optional name for the constraint
+    });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Playlist_Tracks');

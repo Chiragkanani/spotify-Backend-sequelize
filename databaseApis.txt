@@ -1,0 +1,308 @@
+
+******************************************************************************************************
+** route = "/auth"
+**APIS 
+
+    for create user
+    -------------------------------------------------
+
+    -Url = http://localhost:3001/auth/register
+    -method = post
+    -body ={
+                "email":"chiragkanani2001@gmail.com",
+                "password":"123456",
+                "firstName":"chirag",
+                "lastName":"Kanani"
+            }
+
+    for login user
+    -------------------------------------------------
+    -Url = http://localhost:3001/auth/login
+    -method = post
+    -body = {
+                "email":"chiragkanani2003@gmail.com",
+                "password":"123456"
+            }
+    -------------------------------------------------
+
+******************************************************************************************************
+** route = "user"
+**APIS
+
+    for create user after login
+    -------------------------------------------------
+    -Url = http://localhost:3001/users
+    -method = post
+    -body ={
+                "email":"chiragkanani2001@gmail.com",
+                "password":"123456",
+                "firstName":"chirag",
+                "lastName":"Kanani"
+            }
+    
+    get all users
+    -------------------------------------------------
+    -Url = http://localhost:3001/users
+    -method = get
+
+    get specific user
+    -------------------------------------------------
+    -Url = http://localhost:3001/users/:id
+    -method = get
+
+
+    update user
+    -------------------------------------------------
+    -Url = http://localhost:3001/users/:id
+    -method = put
+      -body ={
+                "firstName":"chirag",
+                "lastName":"Kanani"
+            }
+
+******************************************************************************************************
+
+** route  = "Artists"
+** APIS
+
+    for create Artist
+    -------------------------------------------------
+    -Url = http://localhost:3001/artists
+    -method = post
+    -body ={
+        "firstName": "Arijit",
+        "lastName": "singh",
+        "bio": "i am fan of arijit"
+    }
+
+    get all artist with its followers count and all tracks that includes this artist
+    -------------------------------------------------
+    -Url = http://localhost:3001/artists/withAllInfo
+    -method = get
+
+
+    get specific artist with its followers count and all tracks that includes this artist
+    -------------------------------------------------
+    -Url = http://localhost:3001/artists/withAllInfo/:id
+    -method = get
+
+
+    update artist
+    -------------------------------------------------
+    -Url = http://localhost:3001/artists/:id
+    -method = put
+    -body ={
+        "firstName": "Arijit",
+        "lastName": "singh",
+        "bio": "i am fan of arijit"
+    }
+
+    soft delete artist
+    -------------------------------------------------
+    -Url = http://localhost:3001/artists/:id
+    -method = delete
+
+    add artist into users followers list
+    -------------------------------------------------
+    -Url = http://localhost:3001/artists/addIntoUserFollow
+    -method = post
+    -body ={
+        "userId": 1,
+        "artistId": 2,
+    }
+
+
+    remove artist from users followers list
+    -------------------------------------------------
+    -Url = http://localhost:3001/artists/removeFromUserFollow
+    -method = post
+    -body ={
+        "userId": 1,
+        "artistId": 2,
+    }
+
+
+******************************************************************************************************
+
+** route = "Albums"
+** APIS
+
+    for create Album
+    -------------------------------------------------
+    -Url = http://localhost:3001/albums
+    -method = post
+    -body ={
+            "title": "hip hop",
+            "releaseDate": "2024-05-23 16:05:00",
+            "genre": "western",
+            "tracks": [7],
+            "artists": [1, 3]
+        }
+
+    get all albums with  all tracks 
+    -------------------------------------------------
+    -Url = http://localhost:3001/albums/withtracks
+    -method = get
+
+
+    get specific albums with  all tracks 
+    -------------------------------------------------
+    -Url = http://localhost:3001/albums/withtracks/:id
+    -method = get
+
+
+    get specific albums without tracks only album info
+    -------------------------------------------------
+    -Url = http://localhost:3001/albums/:id
+    -method = get
+
+
+    update Albums
+    -------------------------------------------------
+    -Url = http://localhost:3001/albums/:id
+    -method = put
+    -body ={
+            "title": "hip hop",
+            "releaseDate": "2024-05-23 16:05:00",
+            "genre": "western",
+            "tracks": [7],
+            "artists": [1, 3]
+        }
+
+    soft delete albums
+    -------------------------------------------------
+    -Url = http://localhost:3001/albums/:id
+    -method = delete
+
+
+******************************************************************************************************
+** route for "Tracks"
+** APIS
+
+    for create track
+    -------------------------------------------------
+    -Url = http://localhost:3001/tracks
+    -method = post
+    -body ={
+            "title": "Tum mile",
+            "releaseDate": "2024-05-23 16:05:",
+            "duration": "364567567",
+            "artists": [1, 2, 3],
+            "track":File of mp3
+        }
+
+    get all tracks with like count and all artist info of that track 
+    -------------------------------------------------
+    -Url = http://localhost:3001/tracks
+    -method = get
+
+
+    get specific tracks with like count and all artist info of that track 
+    -------------------------------------------------
+    -Url = http://localhost:3001/tracks/:id
+    -method = get
+
+    update tracks
+    -------------------------------------------------
+    -Url = http://localhost:3001/tracks/:id
+    -method = put
+    -body ={
+            "title": "Tum mile",
+            "releaseDate": "2024-05-23 16:05:",
+            "duration": "364567567",
+            "artists": [1, 2, 3],
+            "track":File of mp3
+        }
+
+    soft delete albums
+    -------------------------------------------------
+    -Url = http://localhost:3001/tracks/:id
+    -method = delete
+
+    add track to user liked
+    -------------------------------------------------
+    -Url = http://localhost:3001/tracks/addtracktouserliked
+    -method = post
+    -body ={
+        "userId": 1,
+        "trackId": 2,
+    }
+
+    remove track from user liked
+    -------------------------------------------------
+    -Url = http://localhost:3001/tracks/removetracktouserliked
+    -method = post
+    -body ={
+        "userId": 1,
+        "trackId": 2,
+    }
+
+
+    collection of tracks for user which is liked by that user 
+    -------------------------------------------------
+    -Url = http://localhost:3001/tracks/usersLikedTracksCollection/:userid
+    -method = get
+
+
+******************************************************************************************************
+** routes fro "Playlist"
+** APIS
+
+    for create playlist
+    -------------------------------------------------
+    -Url = http://localhost:3001/playlist
+    -method = post
+    -body ={
+            "userId":1,
+            "name":"my favoroute",
+            "description:"etc....."
+        }
+
+    update playlist
+    -------------------------------------------------
+    -Url = http://localhost:3001/playlist/:id
+    -method = put
+    -body =={
+            "name":"my favoroute",
+            "description:"etc....."
+        }
+
+
+    soft delete playlist
+    -------------------------------------------------
+    -Url = http://localhost:3001/playlist/:id
+    -method = delete
+
+
+    add track to user playlist
+    -------------------------------------------------
+    -Url = http://localhost:3001/playlist/addtrack
+    -method = post
+    -body ={
+        "playlistId": 1,
+        "trackId": 2,
+    }
+
+    remove track from user playlist
+    -------------------------------------------------
+    -Url = http://localhost:3001/playlist/removetrack
+    -method = post
+    -body ={
+        "playlistId": 1,
+        "trackId": 2,
+    }
+
+
+    find users all playlist list
+    -------------------------------------------------
+    -Url = http://localhost:3001/playlist/usersplaylist
+    -method = get
+    -body ={
+        "userId": 1,
+    }
+
+
+    find specific  playlist with all tracks 
+    -------------------------------------------------
+    -Url = http://localhost:3001/playlist/userplaylistwithtrack/:playlistId
+    -method = get

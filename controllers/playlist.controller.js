@@ -12,7 +12,7 @@ const createPlaylist = async(req,res)=>{
         return generalResponse(res, newPlaylist, "Album  created successfully", "success", true)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true,500)
     }
 }
 
@@ -23,13 +23,10 @@ const updatePlaylist = async(req,res)=>{
             name:name.trim(),
             description:description.trim()
         });
-        if (result[0]) {
-            return generalResponse(res, result, "Playlist Updated", "success", true)
-        }
-        return generalResponse(res, result, "Playlist Not Updated", "success", true)
+            return generalResponse(res, result, result[0] ? "Playlist Updated" : "Playlist Not Updated", "success", true)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, error.errors || "Something Went Wrong...", "error", true,500)
 
     }
 }
@@ -37,13 +34,10 @@ const updatePlaylist = async(req,res)=>{
 const deletePlaylist = async(req,res)=>{
     try {
         const result = await destroy(+req.params.id)
-         if (result) {
-            return generalResponse(res, result, "Playlist deleted", "success", true)
-        }
-        return generalResponse(res, result, "Playlist Not deleted", "success", true)
+             return generalResponse(res, result, result ? "Playlist deleted" : "Playlist Not deleted", "success", true)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true,500)
 
     }
 }
@@ -55,7 +49,7 @@ const addPlaylistTrack = async(req,res)=>{
         return generalResponse(res, result, "Track addded", "success", true)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true,500)
     }
 }
 
@@ -63,13 +57,10 @@ const removePlaylistTrack = async(req,res)=>{
     try {
         const { playlistId, trackId } = req.body
         const result = await removeTrack({ playlistId, trackId });
-        if (result) {
-            return generalResponse(res, result, "Track Removed from playist", "success", true)
-        }
-        return generalResponse(res, result, "Track not Removed from playist", "success", true)
+            return generalResponse(res, result, result ? "Track Removed from playist" : "Track not Removed from playist", "success", true)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true,500)
     }
 }
 
@@ -80,7 +71,7 @@ const findUsersAllPlaylist = async(req,res)=>{
         return generalResponse(res, result, "Playlist retrived", "success", true)
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true,500)
     }
 }
 
@@ -88,10 +79,9 @@ const userPlaylistWithTrack = async(req,res)=>{
     try {
         const result = await playlistWithTrack(+req.params.id)
         return generalResponse(res, result, "Playlist retrived", "success", true)
-
     } catch (error) {
         console.log(error);
-        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true)
+        return generalResponse(res, { success: false }, "Something Went Wrong...", "error", true,500)
     }
 }
 

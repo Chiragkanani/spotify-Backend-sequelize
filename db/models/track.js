@@ -16,7 +16,29 @@ module.exports = (sequelize, DataTypes) => {
       models.Track.belongsToMany(models.Album, { through: models.Album_Track });
       models.Track.belongsToMany(models.Playlist, { through: models.Playlist_Track });
       models.Track.belongsToMany(models.User, { through: models.User_Like });
+    }
 
+    static initScope(models) {
+      this.addScope('withAllInfo', {
+        attributes: {
+          include: [[
+            sequelize.fn('COUNT', sequelize.col('User_Likes.trackId')),
+            'likesCount'
+          ]]
+        },
+        include: [{
+          model: models.Artist,
+          attributes: ['id', 'firstName', 'lastName'],
+          through: {
+            attributes: []
+          }
+        }, {
+          model: models.User_Like,
+          attributes: []
+        }],
+        group: ['Track.id', 'Artists.id'],
+        nest: true
+      });
     }
   }
   Track.init({
@@ -68,16 +90,6 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Track',
     timestamps:true,
     paranoid:true,
-    scopes:{
-      withLikeCount:{
-        attributes: {
-          include: [[
-            sequelize.fn('COUNT', sequelize.col('User_Likes.trackId')),
-            'likesCount'
-          ]]
-        },
-      }
-    }
   });
   return Track;
 };
